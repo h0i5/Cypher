@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cypher Password Manager
 
-## Getting Started
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-First, run the development server:
+Cypher is a secure, open-source password manager that prioritizes your privacy by performing all encryption and decryption operations directly on your device. Your sensitive data never leaves your computer in an unencrypted form.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Security Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **256-bit AES Encryption**: Military-grade encryption for all stored credentials
+- **PBKDF2 Key Derivation**: Protects against brute-force attacks by making password hashing computationally intensive
+- **SHA-256 Hashing**: Ensures data integrity and secure password verification
+- **Zero-Knowledge Architecture**: Your data is encrypted before it reaches our servers
+- **Client-Side Operations**: All encryption/decryption happens locally on your device
+- **No Plaintext Storage**: Sensitive data is never stored in readable form
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Master Password**: Users create a strong master password that never leaves their device
+2. **Key Derivation**: PBKDF2 generates an encryption key from the master password
+3. **Local Encryption**: Passwords and sensitive data are encrypted using AES-256
+4. **Secure Storage**: Only encrypted data is synchronized with our servers
+5. **Local Decryption**: Data is decrypted on-demand using your master password
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **Cross-Platform Support**: Available for Windows, macOS, and Linux
+- **Browser Extensions**: Seamless integration with major browsers
+- **Secure Password Generator**: Create strong, unique passwords
+- **Two-Factor Authentication**: Additional security layer for vault access
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting pull requests.
 
-## Deploy on Vercel
+## Privacy Policy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- We never store unencrypted user data
+- We cannot access your passwords or master password
+- We cannot reset your master password
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+Cypher is released under the MIT License. See the [LICENSE](LICENSE) file for details.

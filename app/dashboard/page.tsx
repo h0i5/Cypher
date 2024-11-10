@@ -117,7 +117,8 @@ export default function Dashboard() {
                   </Button>
                 </CardTitle>
                 <CardDescription className="text-gray-600 dark:text-gray-400">
-                  This is your 256-bit AES encrypted vault string. Keep it safe!
+                  This is your 256-bit AES encrypted vault string, which is
+                  stored in this exact form on our backend.
                 </CardDescription>
               </CardHeader>
               <CardContent>

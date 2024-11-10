@@ -29,7 +29,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
 
 const { convertFromAES, convertToAES } = require("@harshiyer/json-crypto");
 
@@ -119,8 +118,11 @@ export default function Passwords(props: { aesString: string; salt: string }) {
         token: token,
       });
 
-      if (response.status === 201) {
-        toast({ title: "Password deleted successfully!" });
+      if (response.status === 200) {
+        toast({
+          title: "Password deleted successfully!",
+          variant: "destructive",
+        });
       }
     } catch (e: any) {
       console.error(e);
@@ -134,6 +136,17 @@ export default function Passwords(props: { aesString: string; salt: string }) {
     }
   };
   function updateData() {
+    setPasswordVisibility((prev) => {
+      const allFalse = Object.keys(prev).reduce(
+        (acc, key) => {
+          acc[Number(key)] = false;
+          return acc;
+        },
+        {} as { [key: number]: boolean },
+      );
+
+      return allFalse;
+    });
     try {
       let decrypted;
       if (newAesString) {
@@ -230,7 +243,7 @@ export default function Passwords(props: { aesString: string; salt: string }) {
       try {
         const newAesObject = await convertToAES(
           { passwords: updatedPasswords, username: username },
-          encryptionPassword,
+          masterPassword,
         );
 
         setNewAesString(newAesObject);
@@ -270,12 +283,6 @@ export default function Passwords(props: { aesString: string; salt: string }) {
   };
 
   const router = useRouter();
-
-  const handleLogout = async () => {
-    setCookie("token", "");
-    localStorage.removeItem("master_password");
-    router.push("/login");
-  };
 
   const togglePasswordVisibility = (id: number) => {
     setSelectedPasswordId(id);
@@ -347,16 +354,13 @@ export default function Passwords(props: { aesString: string; salt: string }) {
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-2xl font-bold">Your Passwords</h3>
           <div className="flex justify-end items-center gap-x-2">
-            <Button
-              onClick={updateData}
-              className="bg-black text-white hover:bg-gray-800"
-            >
+            <Button onClick={updateData} type="button">
               Update
             </Button>
 
             <Dialog open={showAddNew} onOpenChange={setShowAddNew}>
               <DialogTrigger asChild>
-                <Button className="bg-black text-white hover:bg-gray-800">
+                <Button type="button">
                   <Plus className="h-4 w-4 mr-2" /> Add New
                 </Button>
               </DialogTrigger>
@@ -399,7 +403,7 @@ export default function Passwords(props: { aesString: string; salt: string }) {
                       Password
                     </Label>
                     <div className="col-span-3 flex items-center">
-                      <div className="relative flex-grow">
+                      <div className="relative ">
                         <Input
                           id="password"
                           type={showNewPassword ? "text" : "password"}

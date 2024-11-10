@@ -63,7 +63,7 @@ export default function Home() {
                   </Button>
                 </Link>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Start securing your passwords today.
+                  Remember 2 passwords, leave the rest on us.
                 </p>
               </motion.div>
             </div>
@@ -171,7 +171,13 @@ export default function Home() {
                 variants={itemVariants}
                 className="w-full max-w-sm space-y-2"
               >
-                <Button className="w-full" variant="outline">
+                <Button
+                  onClick={() =>
+                    window.open("https://github.com/HarshIyer/Cypher", "_blank")
+                  }
+                  className="w-full"
+                  variant="outline"
+                >
                   View Source Code
                   <Github className="ml-2 h-4 w-4" />
                 </Button>
@@ -211,6 +217,9 @@ export default function Home() {
                 <Button
                   variant="outline"
                   className="bg-white text-black hover:bg-gray-200 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                  onClick={() =>
+                    window.open("https://github.com/HarshIyer/Cypher", "_blank")
+                  }
                 >
                   Star on GitHub
                   <ChevronRight className="ml-2 h-4 w-4" />
