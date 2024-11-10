@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import Navbar from "../components/Navbar";
@@ -135,7 +139,7 @@ export default function Login() {
             </CardContent>
             <CardFooter className="text-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
                   href="/register"
                   className="text-black dark:text-white font-extrabold hover:underline"

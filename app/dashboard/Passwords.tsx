@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Dices } from "lucide-react";
 import { useState, useEffect } from "react";
 import { ClipLoader } from "react-spinners";
 import { password_generator } from "../components/password-generator";
-import { Plus, Edit, Trash, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

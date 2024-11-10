@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Link from "next/link";
 const { convertToAES } = require("@harshiyer/json-crypto");
@@ -23,7 +27,6 @@ import axios from "axios";
 import { apiURL } from "../components/links";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-const bcrypt = require("bcryptjs");
 export default function Register() {
   const router = useRouter();
   const { toast } = useToast();

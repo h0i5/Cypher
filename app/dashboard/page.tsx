@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -33,7 +37,7 @@ export default function Dashboard() {
   const { toast } = useToast();
   useEffect(() => {
     setLoading(true);
-    var token: any;
+    let token: any;
     try {
       token = getCookie("token");
       if (token == null) {

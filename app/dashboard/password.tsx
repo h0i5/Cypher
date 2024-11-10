@@ -1,16 +1,17 @@
 export function password_generator(len: number) {
-  var length = len ? len : 10;
-  var string = "abcdefghijklmnopqrstuvwxyz"; //to upper
-  var numeric = "0123456789";
-  var punctuation = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
-  var password = "";
-  var character = "";
-  var crunch = true;
+  const length = len ? len : 10;
+  const string = "abcdefghijklmnopqrstuvwxyz"; //to upper
+  const numeric = "0123456789";
+  const punctuation = "!@#$%^&*()_+~`|}{[]:;?><,./-=";
+  let password = "";
+  let character = "";
   while (password.length < length) {
-    var entity1 = Math.ceil(string.length * Math.random() * Math.random());
-    var entity2 = Math.ceil(numeric.length * Math.random() * Math.random());
-    var entity3 = Math.ceil(punctuation.length * Math.random() * Math.random());
-    var hold = string.charAt(entity1);
+    const entity1 = Math.ceil(string.length * Math.random() * Math.random());
+    const entity2 = Math.ceil(numeric.length * Math.random() * Math.random());
+    const entity3 = Math.ceil(
+      punctuation.length * Math.random() * Math.random(),
+    );
+    let hold = string.charAt(entity1);
     hold = password.length % 2 == 0 ? hold.toUpperCase() : hold;
     character += hold;
     character += numeric.charAt(entity2);
