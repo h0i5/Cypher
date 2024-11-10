@@ -424,7 +424,6 @@ export default function Passwords(props: { aesString: string; salt: string }) {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          disabled={passwordVisibility ? true : false}
                           className="absolute right-0 top-0 h-full px-3 py-2"
                           onClick={() => setShowNewPassword(!showNewPassword)}
                         >

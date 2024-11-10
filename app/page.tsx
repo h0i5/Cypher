@@ -34,7 +34,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white">
       <Navbar />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section className="w-full py-48 md:py-48 lg:py-48 xl:py-48">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -61,8 +61,8 @@ export default function Home() {
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Remember 2 passwords, leave the rest on us.
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Remember 2 passwords, leave the rest to us.
                 </p>
               </motion.div>
             </div>
