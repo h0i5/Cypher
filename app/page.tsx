@@ -205,8 +205,7 @@ export default function Home() {
                 variants={itemVariants}
                 className="mx-auto max-w-[700px] text-gray-300 md:text-xl"
               >
-                Join our community of developers and security experts. Help make
-                Cypher even better.
+                Help make Cypher even better.
               </motion.p>
               <motion.div viewport={{ once: true }} variants={itemVariants}>
                 <Button

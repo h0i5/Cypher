@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Eye, EyeOff, Plus, Edit, Trash } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Eye, EyeOff, Plus, Trash, Dices } from "lucide-react";
+import axios from "axios";
+import { getCookie, deleteCookie } from "cookies-next";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,156 +12,126 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 import Navbar from "../components/Navbar";
-import { useEffect } from "react";
-import axios from "axios";
 import { apiURL } from "../components/links";
-import { getCookie, setCookie } from "cookies-next";
-
+import Passwords from "./Passwords";
+import { StringSkeleton } from "../components/Skeletons";
+import { PageTransition } from "../components/page-transition";
+import { useRouter } from "next/navigation";
+const { convertFromAES } = require("@harshiyer/json-crypto");
+import { LogOut } from "lucide-react";
 export default function Dashboard() {
+  const [username, setUsername] = useState("");
+  const router = useRouter();
   const [vault, setVault] = useState("");
   const [loading, setLoading] = useState(false);
-  //const [token, setToken] = useState("");
+  const [salt, setSalt] = useState("wow");
+  const [showVault, setShowVault] = useState(false);
 
+  const { toast } = useToast();
   useEffect(() => {
     setLoading(true);
-    var token = getCookie("token");
-    // Call the backend for the vault
+    var token: any;
+    try {
+      token = getCookie("token");
+      if (token == null) {
+        router.push("/login");
+      }
+    } catch (e) {
+      router.push("/login");
+    }
+
     const fetchData = async () => {
       try {
-        await axios
-          .post(`${apiURL}/getVault`, {
-            token: token,
-          })
-          .then((response) => {
-            console.log(response);
-            setLoading(false);
-            setVault(response.data.vault);
-          });
+        const response = await axios.post(`${apiURL}/getVault`, {
+          token: token,
+        });
+        console.log(response);
+        setLoading(false);
+        setSalt(response.data.salt);
+        setVault(response.data.aesString);
+        setUsername(response.data.username);
       } catch (e: any) {
         console.log(e);
-        if (e.response.status == 400) {
+        if (e.response?.status == 400) {
+          // Handle 400 error
         }
         setLoading(false);
       }
     };
     fetchData();
   }, []);
+  const handleLogout = async () => {
+    try {
+      deleteCookie("token");
+      localStorage.removeItem("master_password");
+      toast({
+        title: "Logged out successfully!",
+      });
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: "An error occurred while logging out!",
+        variant: "destructive",
+      });
+    }
 
-  const [showVault, setShowVault] = useState(false);
-  const [passwords, setPasswords] = useState([
-    {
-      id: 1,
-      name: "Gmail",
-      username: "user@example.com",
-      password: "********",
-    },
-    {
-      id: 2,
-      name: "Facebook",
-      username: "user@example.com",
-      password: "********",
-    },
-    { id: 3, name: "Twitter", username: "@user", password: "********" },
-  ]);
+    router.push("/login");
+  };
 
   return (
-    <div className="min-h-screen bg-white text-black">
-      <Navbar />
-      <main className="container mx-auto px-6 py-12">
-        <h2 className="text-4xl font-bold mb-8">Welcome back, User!</h2>
-
-        <section className="mb-12">
-          <Card className="bg-white border-gray-200 shadow-md">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Encrypted Vault</span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowVault(!showVault)}
-                  className="text-black border-gray-300 hover:bg-gray-100"
-                >
-                  {showVault ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                  <span className="ml-2">{showVault ? "Hide" : "Show"}</span>
-                </Button>
-              </CardTitle>
-              <CardDescription className="text-gray-600">
-                This is your 256-bit AES encrypted vault string. Keep it safe!
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto text-black">
-                {showVault ? vault : "************************"}
-              </pre>
-            </CardContent>
-          </Card>
-        </section>
-
-        <section>
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-2xl font-bold">Your Passwords</h3>
-            <Button className="bg-black text-white hover:bg-gray-800">
-              <Plus className="h-4 w-4 mr-2" /> Add New
+    <PageTransition>
+      <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white">
+        <Navbar />
+        <Toaster />
+        <main className="container mx-auto px-6 py-12">
+          <div className="flex flex-row justify-between">
+            <h2 className="text-4xl flex flex-row font-bold mb-8">
+              Welcome back,
+              {username == "" ? <StringSkeleton /> : ""} {username}!
+            </h2>
+            <Button onClick={handleLogout} type="button" className="ml-2">
+              Log Out
+              <LogOut />
             </Button>
           </div>
-          <Card className="bg-white border-gray-200 shadow-md">
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-gray-600">Name</TableHead>
-                    <TableHead className="text-gray-600">Username</TableHead>
-                    <TableHead className="text-gray-600">Password</TableHead>
-                    <TableHead className="text-gray-600">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {passwords.map((entry) => (
-                    <TableRow key={entry.id}>
-                      <TableCell className="font-medium">
-                        {entry.name}
-                      </TableCell>
-                      <TableCell>{entry.username}</TableCell>
-                      <TableCell>{entry.password}</TableCell>
-                      <TableCell>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-black hover:text-blue-800"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-red-600 hover:text-red-800"
-                          >
-                            <Trash className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </section>
-      </main>
-    </div>
+          <section className="mb-12">
+            <Card className="bg-white dark:bg-black border-gray-200 dark:border-gray-800 shadow-md">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <span>Encrypted Vault</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowVault(!showVault)}
+                    className="text-black dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900"
+                  >
+                    {showVault ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                    <span className="ml-2">{showVault ? "Hide" : "Show"}</span>
+                  </Button>
+                </CardTitle>
+                <CardDescription className="text-gray-600 dark:text-gray-400">
+                  This is your 256-bit AES encrypted vault string. Keep it safe!
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <pre className="bg-gray-100 dark:bg-gray-900 p-4 rounded-md overflow-x-auto text-black dark:text-white">
+                  {showVault ? vault : "************************"}
+                </pre>
+              </CardContent>
+            </Card>
+          </section>
+          <section>
+            <Passwords aesString={vault} salt={salt} />
+          </section>
+        </main>
+      </div>
+    </PageTransition>
   );
 }
