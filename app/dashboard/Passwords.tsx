@@ -206,7 +206,6 @@ export default function Passwords(props: { aesString: string; salt: string }) {
           token: getCookie("token"),
         })
         .then((response) => {
-          console.log(response);
           if (response.status == 201) {
             toast({
               title: "Password Verified Successfully!",
@@ -231,7 +230,6 @@ export default function Passwords(props: { aesString: string; salt: string }) {
       newPassword.password,
       encryptionPassword,
     );
-    console.log(encryptedAESPassword);
 
     if (encryptionPassword) {
       const newEntry = {
@@ -313,7 +311,6 @@ export default function Passwords(props: { aesString: string; salt: string }) {
         const selectedPassword = passwords.find(
           (p) => p.id === selectedPasswordId,
         );
-        console.log(selectedPassword);
 
         if (selectedPassword) {
           // Attempt decryption
@@ -323,7 +320,10 @@ export default function Passwords(props: { aesString: string; salt: string }) {
             selectedPassword.salt,
           );
 
-          console.log(decryptedPassword);
+          navigator.clipboard.writeText(decryptedPassword.inputJSON);
+          toast({
+            title: "Copied to clipboard!",
+          });
 
           // Update state to show decrypted password
           setPasswordVisibility((prev) => ({
