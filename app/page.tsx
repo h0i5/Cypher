@@ -172,7 +172,7 @@ export default function Home() {
               >
                 <Button
                   onClick={() =>
-                    window.open("https://github.com/HarshIyer/Cypher", "_blank")
+                    window.open("https://github.com/h0i5/Cypher", "_blank")
                   }
                   className="w-full"
                   variant="outline"
@@ -217,7 +217,7 @@ export default function Home() {
                   variant="outline"
                   className="bg-white text-black hover:bg-gray-200 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                   onClick={() =>
-                    window.open("https://github.com/HarshIyer/Cypher", "_blank")
+                    window.open("https://github.com/h0i5/Cypher", "_blank")
                   }
                 >
                   Star on GitHub
